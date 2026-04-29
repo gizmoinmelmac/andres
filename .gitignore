@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor & IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Local dev server
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# If a package manager is ever added
+node_modules/
