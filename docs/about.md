@@ -11,7 +11,7 @@ Last updated: 2026-04-29
 | | |
 |---|---|
 | **Location** | Los Angeles · Madrid · Miami |
-| **Email** | afaos@proton.me |
+| **Email** | afaos@proton.me (primary) · af.uplifting638@passmail.com (site contact alias — obfuscated in v2.html) |
 | **LinkedIn** | [linkedin.com/in/andresfajardo](https://linkedin.com/in/andresfajardo) |
 | **Languages** | English (native) · Spanish (native) · German (elementary) |
 

@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Overview
 
@@ -52,23 +52,13 @@ Dark atmospheric page built around a full-page Spline 3D scene (robot figure). D
 
 ### `dark-room.html` — Archive 314 (π)
 
-Single-screen flashlight room — a faithful port of the original `old_site/dark-room.htm` (Zachary Johnson technique), reskinned in the DHARMA amber palette. No scroll on desktop.
+Scrollable "classified trivia archive" in the same DHARMA aesthetic. No Spline scene.
 
-**Three coupled mechanics (all in vanilla JS, no deps):**
-- **Flashlight (`#spot`)** — `position: fixed`, 200%×200% element with `radial-gradient(transparent 0, black 450px)`, `pointer-events: none`, `z-index: 100`. JS shifts `background-position` 1:1 with cursor delta from center, punching a circular hole in the otherwise black overlay.
-- **Title shadow** — `#archive-title` has a visible amber color (`#9a8a74`) plus a cursor-following `text-shadow: black`. The word is seen AND casts a shadow; shadow direction is the inverse of cursor position (light source = cursor), blur grows with distance from the stage center-third reference point.
-- **Wall cast-shadow** — `#wall` (`position: relative`) uses `box-shadow` (Y-axis only, inverse to cursor Y) to cast a black bloom upward into the dark stage, simulating the wall's top edge throwing a shadow. `position: relative` on `#wall` is load-bearing: it places `#wall` in a higher paint layer than the static `#stage`, so the box-shadow bleeds into the stage area correctly.
-
-**Layout:** `#stage` (top 40vh, `#3a3228` — amber-tinted `#444`) + `#wall` (bottom 60vh, `#a89070` — amber-tinted `#999`). Body `overflow: hidden`; `#wall` scrolls its content internally via `overflow-y: auto`.
-
-**Palette (hex, not OKLCH — intentionally different from `index.html`):**
-- Stage bg `#3a3228` · Wall bg `#a89070` · Title `#9a8a74` · Wall text `#1c1610` · Accent `#7a5828`
-
-**Four archive cards** — Coffee · Movies & Scripts · Music · Stuff, in a 2-col CSS Grid (`auto-fit, minmax(300px, 1fr)`). Single column on mobile.
-
-**Footer** — EOF line + "Return to Station 04" link back to `/`.
-
-**Mobile / reduced-motion:** `#spot` hidden, body scrolls normally, title shows static shadow, single-column grid.
+**Key elements:**
+- **Torch mask** — `#torch-mask`: a fixed full-page dark overlay with a transparent radial hole at `--tx`/`--ty` (cursor position). Creates a flashlight effect on desktop. Hidden on `(hover: none)` and `(prefers-reduced-motion: reduce)`.
+- **Hex watermark** — faint SVG hexagon centered in background, `opacity: 0.03`.
+- **Four archive cards** — Coffee · Movies & Scripts · Music · Stuff, in a 2-col CSS Grid (`auto-fit, minmax(340px, 1fr)`). Single column on mobile.
+- **Footer** — EOF line + "Return to Station 04" link back to `/`.
 
 ### `old_site/` (gitignored)
 
