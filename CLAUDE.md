@@ -41,7 +41,7 @@ Dark atmospheric page built around a full-page Spline 3D scene (robot figure). D
 - **Spotlight** — `#spotlight` radial glow follows the cursor (desktop only).
 - **Content** — `.content` (fixed, left-aligned): station label, hex seal SVG, name H1, descriptor, LinkedIn + contact links.
 - **Signature** — `.sig` (fixed, bottom-left): coordinates + the `Seq — 04 · 08 · 15 · 16 · 23 · 42` trigger.
-- **π trigger** — `.pi-trigger` (fixed, bottom-right): a tiny `π` glyph linking to `dark-room.html` in a new tab.
+- **π trigger** — `.pi-trigger` (fixed, bottom-right): a tiny `π` glyph linking to `black-file.html` in a new tab.
 - **DHARMA sequence easter egg** — clicking the `Seq —` line opens a terminal panel; entering the six numbers (`4 8 15 16 23 42`) and pressing INITIATE reveals a typewriter-animated personnel file, then dismisses.
 
 **Palette:** All colors use OKLCH — `--bg` (9% dark amber), `--text` (87% warm), `--dim` (56% muted), `--accent` (74% amber), `--rule` (26% dark rule).
@@ -50,9 +50,9 @@ Dark atmospheric page built around a full-page Spline 3D scene (robot figure). D
 
 **Mobile:** Gradient flips bottom-up; content moves to bottom of viewport; hex seal hidden; gyroscope parallax activated on first touch (iOS 13+ requires permission gesture).
 
-### `dark-room.html` — Archive 314 (π)
+### `black-file.html` — The Black File / Archive 314 (π)
 
-Single-screen flashlight room — a faithful port of the original `old_site/dark-room.htm` (Zachary Johnson technique), reskinned in the DHARMA amber palette. No scroll on desktop.
+Scrollable flashlight room — a faithful port of the original `old_site/dark-room.htm` (Zachary Johnson technique), reskinned in the DHARMA amber palette.
 
 **Three coupled mechanics (all in vanilla JS, no deps):**
 - **Flashlight (`#spot`)** — `position: fixed`, 200%×200% element with `radial-gradient(transparent 0, black 450px)`, `pointer-events: none`, `z-index: 100`. JS shifts `background-position` 1:1 with cursor delta from center, punching a circular hole in the otherwise black overlay.

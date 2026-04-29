@@ -27,6 +27,14 @@ Desktop.ini
 *.log
 npm-debug.log*
 
+# Browser/testing artifacts
+output/
+test-results/
+playwright-report/
+blob-report/
+coverage/
+.nyc_output/
+
 # If a package manager is ever added
 node_modules/
 

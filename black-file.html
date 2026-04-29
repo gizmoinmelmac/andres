@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Andrés Fajardo — The Black File">
+  <link rel="icon" href="data:,">
+  <title>The Black File · Archive 314 · andresfajardo.co</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&family=Azeret+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    ::selection { background: #c8a060; color: #111; }
+
+    :root {
+      /* Stage tones — amber-tinted equivalent of original's #444 */
+      --stage-bg:  #3a3228;
+      /* Wall tones — amber-tinted equivalent of original's #999 */
+      --wall-bg:   #a89070;
+      --wall-text: #1c1610;
+      --wall-dim:  #4a3c2c;
+      --wall-acc:  #4d3416;
+      --wall-hot:  #f1e5d4;
+      --wall-rule: #8a7458;
+      /* Stage label color */
+      --stage-dim: #9a8a78;
+      --tx: 52vw;
+      --ty: 31vh;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--stage-bg);
+      font-family: 'Azeret Mono', monospace;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Scanlines — above flashlight */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 3px,
+        rgba(0,0,0,0.04) 3px,
+        rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 300;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(90deg, transparent 0 48%, rgba(241,229,212,0.13) 49%, transparent 51%),
+        linear-gradient(0deg, transparent 0 48%, rgba(241,229,212,0.08) 49%, transparent 51%);
+      background-size: 86px 86px;
+      mix-blend-mode: soft-light;
+    }
+
+    /* ─── Stage: dark zone, top 40% ─── */
+    #stage {
+      position: relative;
+      overflow: hidden;
+      height: 40vh;
+      min-height: 180px;
+      background: var(--stage-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #stage::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--tx) var(--ty), rgba(241,229,212,0.12), transparent 28rem),
+        linear-gradient(180deg, rgba(28,22,16,0.18), transparent 52%);
+      opacity: 0.85;
+    }
+
+    #stage::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -24%;
+      width: min(64vw, 760px);
+      height: min(64vw, 760px);
+      border: 1px solid rgba(154,138,120,0.12);
+      transform: translateX(-50%) rotate(30deg);
+      opacity: 0.38;
+      pointer-events: none;
+    }
+
+    .station-id {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(0.66rem, 0.6rem + 0.18vw, 0.78rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--stage-dim);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .station-id::before {
+      content: '';
+      width: 1.5rem;
+      height: 1px;
+      background: var(--stage-dim);
+      flex-shrink: 0;
+    }
+
+    /* Title: visible word + cursor-following shadow — matches original's #tsb-link + #tsb-text */
+    #archive-title {
+      position: relative;
+      z-index: 1;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(4rem, 11vw, 9.5rem);
+      font-weight: 600;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #9a8a74;
+      /* resting state: shadow straight up, light source below */
+      text-shadow: 0px -45px 19px black;
+      cursor: default;
+      text-align: center;
+      animation: title-arrival 1200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .byline {
+      position: relative;
+      z-index: 1;
+      margin-top: 1.15rem;
+      color: color-mix(in srgb, var(--stage-dim) 76%, var(--wall-hot));
+      font-size: clamp(0.64rem, 0.58rem + 0.16vw, 0.74rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .cursor-hint {
+      position: fixed;
+      top: clamp(1rem, 3vw, 1.8rem);
+      right: clamp(1rem, 3vw, 2rem);
+      z-index: 320;
+      color: color-mix(in srgb, var(--stage-dim) 78%, var(--wall-hot));
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(-0.4rem);
+      animation: hint-in 480ms 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 hint-out 700ms 5200ms ease forwards;
+      pointer-events: none;
+    }
+
+    body.has-pointer .cursor-hint {
+      animation: hint-out 420ms ease forwards;
+    }
+
+    /* ─── Wall: content panel, bottom 60% ─── */
+    /* position: relative keeps #wall's box-shadow painting above the static #stage */
+    #wall {
+      position: relative;
+      height: 60vh;
+      background: var(--wall-bg);
+      border-top: 1px solid #6a5840;
+      overflow-y: auto;
+      /* resting upward cast-shadow into stage */
+      box-shadow: 0px -45px 39px black;
+      scrollbar-color: var(--wall-acc) rgba(28,22,16,0.12);
+      scrollbar-width: thin;
+    }
+
+    #wall::before {
+      content: '';
+      position: sticky;
+      top: 0;
+      display: block;
+      width: calc(var(--scroll-progress, 0) * 100%);
+      height: 2px;
+      z-index: 5;
+      background: var(--wall-text);
+      opacity: 0.68;
+      transform-origin: left;
+      pointer-events: none;
+    }
+
+    .wall-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 5vw, 4.5rem) 2.5rem;
+    }
+
+    .facts-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+      font-size: clamp(0.66rem, 0.6rem + 0.18vw, 0.76rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--wall-acc);
+    }
+
+    .facts-header::before {
+      content: '';
+      width: 1.5rem;
+      height: 1px;
+      background: var(--wall-acc);
+      flex-shrink: 0;
+    }
+
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .archive-card {
+      background: rgba(0,0,0,0.12);
+      border: 1px solid var(--wall-rule);
+      padding: 1.1rem 1.35rem 1.35rem;
+      transform: translateY(0);
+      animation: card-in 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: calc(var(--i, 0) * 90ms + 220ms);
+      transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 220ms ease,
+                  border-color 220ms ease;
+    }
+
+    .archive-card:hover,
+    .archive-card:focus-within {
+      transform: translateY(-3px);
+      background: rgba(0,0,0,0.16);
+      border-color: color-mix(in srgb, var(--wall-rule) 64%, var(--wall-text));
+    }
+
+    .card-hdr {
+      font-size: clamp(0.62rem, 0.56rem + 0.16vw, 0.72rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--wall-acc);
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--wall-rule);
+    }
+
+    .card-body {
+      list-style: none;
+    }
+
+    .card-body li {
+      font-size: clamp(0.92rem, 0.86rem + 0.16vw, 1rem);
+      line-height: 1.8;
+      letter-spacing: 0.01em;
+      color: var(--wall-text);
+      padding: 0.35rem 0 0.35rem 1.2em;
+      text-indent: -1.2em;
+      user-select: text;
+    }
+
+    .card-body li + li {
+      border-top: 1px solid rgba(0,0,0,0.15);
+    }
+
+    .card-body li::before {
+      content: '> ';
+      color: var(--wall-acc);
+    }
+
+    .fact-personal {
+      display: block;
+      margin: 0.1rem 0 0.2rem;
+      padding: 0.5rem 0.7rem 0.55rem 1.9rem;
+      background: rgba(28,22,16,0.48);
+      border: 1px solid rgba(241,229,212,0.16);
+      color: var(--wall-hot) !important;
+      font-style: italic;
+      text-shadow: 0 1px 0 rgba(28,22,16,0.35);
+    }
+    .fact-personal::before { color: var(--wall-hot) !important; }
+
+    .archive-footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--wall-rule);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-eof {
+      font-size: clamp(0.62rem, 0.56rem + 0.14vw, 0.7rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--wall-dim);
+    }
+
+    .footer-eof .easter-note {
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      cursor: help;
+    }
+
+    .footer-eof .easter-note::after {
+      content: attr(data-note);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 0.55rem);
+      width: max-content;
+      max-width: min(17rem, 72vw);
+      padding: 0.45rem 0.58rem;
+      border: 1px solid color-mix(in srgb, var(--wall-rule) 72%, var(--wall-text));
+      background: color-mix(in srgb, var(--wall-bg) 86%, var(--wall-hot));
+      color: var(--wall-text);
+      font-size: 0.62rem;
+      line-height: 1.45;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: normal;
+      opacity: 0;
+      transform: translate(-50%, 0.25rem);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+      box-shadow: 0 0.45rem 1rem rgba(28,22,16,0.2);
+    }
+
+    .footer-eof .easter-note:hover::after,
+    .footer-eof .easter-note:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .footer-return {
+      font-size: clamp(0.66rem, 0.6rem + 0.16vw, 0.76rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--wall-dim);
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.18s ease;
+      user-select: none;
+    }
+
+    .footer-return:hover,
+    .footer-return:focus-visible {
+      color: var(--wall-text);
+      background: var(--wall-bg);
+      outline: none;
+    }
+
+    /* ─── Flashlight spot overlay — covers full viewport ─── */
+    #spot {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      background:
+        radial-gradient(circle at var(--tx) var(--ty),
+          transparent 0 168px,
+          rgba(0,0,0,0.12) 260px,
+          rgba(0,0,0,0.84) 540px,
+          rgba(0,0,0,0.96) 100%);
+      transition: opacity 360ms ease;
+    }
+
+    @keyframes title-arrival {
+      from {
+        opacity: 0.2;
+        transform: translateY(10px) scale(0.985);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes hint-in {
+      to { opacity: 0.78; transform: translateY(0); }
+    }
+
+    @keyframes hint-out {
+      to { opacity: 0; transform: translateY(-0.25rem); }
+    }
+
+    @keyframes card-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Mobile / touch: no flashlight, normal scroll ─── */
+    @media (hover: none), (max-width: 600px) {
+      html, body {
+        height: auto;
+        overflow: auto;
+      }
+
+      #stage {
+        min-height: 100svh;
+        justify-content: end;
+        padding: 1.25rem 1.15rem 15vh;
+        touch-action: pan-y;
+      }
+
+      #stage::before {
+        background:
+          radial-gradient(circle at 50% 62%, rgba(241,229,212,0.16), transparent 18rem),
+          linear-gradient(180deg, rgba(28,22,16,0.08), rgba(28,22,16,0.42));
+        animation: mobile-scan 4.6s ease-in-out infinite alternate;
+      }
+
+      #stage::after {
+        width: 118vw;
+        height: 118vw;
+        bottom: -18vw;
+      }
+
+      #archive-title {
+        font-size: clamp(3.4rem, 17vw, 6rem);
+        color: #9a8a74;
+        text-shadow: 0px -28px 18px black;
+      }
+
+      .station-id {
+        max-width: 22rem;
+        align-self: stretch;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.55;
+        letter-spacing: 0.16em;
+      }
+
+      .station-id::before { display: none; }
+
+      .byline {
+        max-width: 20rem;
+        text-align: center;
+        line-height: 1.65;
+      }
+
+      #wall {
+        height: auto;
+        overflow-y: visible;
+        min-height: 100svh;
+      }
+
+      #spot,
+      .cursor-hint { display: none; }
+
+      .facts-header {
+        letter-spacing: 0.16em;
+        line-height: 1.5;
+      }
+
+      .archive-grid { grid-template-columns: 1fr; }
+
+      .card-body li { font-size: clamp(0.9rem, 0.84rem + 0.3vw, 0.98rem); }
+
+      .wall-inner { padding: 1.15rem 1.05rem max(3rem, env(safe-area-inset-bottom)); }
+
+      .archive-card {
+        padding: 1rem 1.05rem 1.1rem;
+        background: rgba(0,0,0,0.15);
+      }
+
+      .card-hdr {
+        letter-spacing: 0.16em;
+        line-height: 1.45;
+      }
+
+      .archive-footer {
+        padding-bottom: 0.75rem;
+      }
+
+      @keyframes mobile-scan {
+        from { opacity: 0.55; transform: translate3d(-4%, -2%, 0); }
+        to { opacity: 0.95; transform: translate3d(4%, 3%, 0); }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #spot { display: none; }
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Flashlight overlay — pointer-events: none, z100 -->
+  <div id="spot" aria-hidden="true"></div>
+  <p class="cursor-hint" aria-hidden="true">move cursor to inspect</p>
+
+  <!-- Dark stage: title visible only as a shadow/glow -->
+  <div id="stage">
+    <p class="station-id">Archive 314 — Unfiled Signals — π</p>
+    <h1 id="archive-title">The Black<br>File</h1>
+    <p class="byline">Andrés Fajardo · unfiled personal signals</p>
+  </div>
+
+  <!-- Wall: the content panel whose top edge casts a shadow up into the stage -->
+  <div id="wall">
+    <div class="wall-inner">
+
+      <p class="facts-header">Classified intelligence · six categories</p>
+
+      <div class="archive-grid">
+
+        <section class="archive-card" style="--i: 0">
+          <div class="card-hdr">░ File 04A — Coffee ░</div>
+          <ul class="card-body">
+            <li class="fact-personal">The AeroPress changed my life with coffee. Such a great product. I cannot recommend it enough.</li>
+            <li>The Trojan Room coffee pot at Cambridge became the subject of the first webcam in 1991, because the lab's coffee machine was too far away to check in person.</li>
+            <li>That coffee camera moved from a local lab feed to the Web in 1993, making one exhausted pot an early global internet celebrity.</li>
+            <li>The original coffee pot was finally switched off in 2001 and sold at auction, because even caffeine hardware gets archived.</li>
+          </ul>
+        </section>
+
+        <section class="archive-card" style="--i: 1">
+          <div class="card-hdr">░ File 04B — Time Machines ░</div>
+          <ul class="card-body">
+            <li>The first Back to the Future drafts used a refrigerator as the time machine, with the climax built around a nuclear test site in Nevada.</li>
+            <li>The DeLorean solved a story problem: a time machine that could move let the filmmakers make the 88 mph rule visible.</li>
+            <li>Michael J. Fox was the first choice for Marty McFly, but Eric Stoltz was cast first and replaced after weeks of shooting.</li>
+            <li>Back to the Future Part II sends Marty and Doc to October 21, 2015. The date became its own pop-culture holiday.</li>
+          </ul>
+        </section>
+
+        <section class="archive-card" style="--i: 2">
+          <div class="card-hdr">░ File 04C — Games ░</div>
+          <ul class="card-body">
+            <li>Atari's Adventure hid Warren Robinett's signature in a secret room; Atari later leaned into the idea and called hidden secrets "Easter eggs."</li>
+            <li>The Dreamcast VMU was not just a memory card. It had a screen, buttons, and could run tiny standalone mini-games outside the console.</li>
+            <li>The original Doom source release in 1997 was the Linux codebase, not a neat museum drop of the commercial DOS game.</li>
+            <li>R.O.B. only supported two NES games, Gyromite and Stack-Up, but helped Nintendo present the NES as a toy after the 1983 game crash.</li>
+          </ul>
+        </section>
+
+        <section class="archive-card" style="--i: 3">
+          <div class="card-hdr">░ File 04D — Pocket Gizmos ░</div>
+          <ul class="card-body">
+            <li>The first Sony Walkman, the TPS-L2, had two headphone jacks so two people could listen to the same cassette together.</li>
+            <li>That same Walkman had an orange "hotline" button that lowered the tape volume and mixed in a microphone so listeners could talk without removing headphones.</li>
+            <li>Yes, I had a Tamagotchi. Yes, I cared for it. Yes, this remains an emotionally valid chapter in portable computing.</li>
+            <li>The Apple Newton MessagePad arrived in 1993 with handwriting recognition years before the smartphone made pocket computers normal.</li>
+          </ul>
+        </section>
+
+        <section class="archive-card" style="--i: 4">
+          <div class="card-hdr">░ File 04E — Signal &amp; Sound ░</div>
+          <ul class="card-body">
+            <li>The Yamaha DX7 launched in 1983 and made FM synthesis the default flavor of an entire decade of pop gloss.</li>
+            <li>The lightsaber sound blended a projector motor hum with electrical interference picked up near a television.</li>
+            <li>The Wilhelm Scream was recorded in 1951 and became a running sound-department signature across Star Wars, Indiana Jones, and hundreds of other films.</li>
+            <li>Pink Floyd's The Dark Side of the Moon spent 741 consecutive weeks on the Billboard 200.</li>
+          </ul>
+        </section>
+
+        <section class="archive-card" style="--i: 5">
+          <div class="card-hdr">░ File 04F — Personal File ░</div>
+          <ul class="card-body">
+            <li class="fact-personal">I won best script for "The X Files" TV series (FOX Broadcasting Company) 2000. I kid you not.</li>
+            <li>Tool is not a tool in this file. Tool is the band, and yes, that distinction matters.</li>
+            <li>Battlestar Galactica is still my number one TV series of all time. So say we all.</li>
+            <li>Known vulnerability: anything with buttons, ports, dials, cartridges, tiny screens, magnetic media, or a suspiciously specific use case.</li>
+          </ul>
+        </section>
+
+      </div>
+
+      <footer class="archive-footer">
+        <p class="footer-eof">░ EOF — Archive 314 ░ <span class="easter-note" tabindex="0" role="note" aria-label="Lost reference: Danielle Rousseau was right." data-note="Lost reference · Danielle Rousseau was right">Numbers are bad</span> ░</p>
+        <a href="/" class="footer-return">[ Return to Station 04 ]</a>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+    /**
+     * Flashlight + cast-shadow effect, ported from Zachary Johnson's original
+     * (old_site/dark-room.htm). Three coupled tricks:
+     *   1. Title: its text-shadow follows the inverse cursor direction,
+     *      simulating a moving light.
+     *   2. Wall: box-shadow casts upward into the dark stage. Only Y-axis tracks
+     *      cursor so the wall "casts" as the light rises above it.
+     *   3. Spot: a radial-gradient overlay tracks CSS cursor variables,
+     *      creating a flashlight hole in an otherwise black screen.
+     */
+    (function () {
+      var root  = document.documentElement;
+      var title = document.getElementById('archive-title');
+      var wall  = document.getElementById('wall');
+      var spot  = document.getElementById('spot');
+      var rafId = 0;
+      var driftId = 0;
+      var pointerSeen = false;
+
+      function updateProgress() {
+        var desktopMax = wall.scrollHeight - wall.clientHeight;
+        var pageMax = document.documentElement.scrollHeight - window.innerHeight;
+        var progress;
+
+        if (desktopMax > 0 && window.getComputedStyle(wall).overflowY !== 'visible') {
+          progress = wall.scrollTop / desktopMax;
+        } else {
+          progress = pageMax > 0 ? window.scrollY / pageMax : 1;
+        }
+
+        wall.style.setProperty('--scroll-progress', Math.max(0, Math.min(1, progress)).toFixed(4));
+      }
+
+      wall.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+
+      if (window.matchMedia('(hover: none)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      function renderLight(clientX, clientY) {
+        // text-shadow math: damped offset inverse to cursor, blur grows with distance
+        var xm = (clientX - Math.floor(window.innerWidth  / 2)) * 0.4;
+        var ym = (clientY - Math.floor(window.innerHeight / 3)) * 0.4;
+        var d  = Math.round(Math.sqrt(xm * xm + ym * ym) / 5);
+
+        title.style.textShadow =
+          (-xm) + 'px ' + (-ym) + 'px ' + (d + 10) + 'px black';
+
+        // wall box-shadow: only Y-axis, inverse to cursor Y — casts into stage
+        wall.style.boxShadow =
+          '0 ' + (-ym) + 'px ' + (d + 30) + 'px black';
+
+        root.style.setProperty('--tx', clientX + 'px');
+        root.style.setProperty('--ty', clientY + 'px');
+      }
+
+      function driftLight(start) {
+        if (pointerSeen) return;
+
+        var elapsed = start ? performance.now() - start : 0;
+        var t = elapsed / 4200;
+        var x = window.innerWidth * (0.48 + Math.sin(t * Math.PI * 1.45) * 0.08);
+        var y = window.innerHeight * (0.31 + Math.cos(t * Math.PI * 1.2) * 0.055);
+
+        renderLight(x, y);
+
+        if (elapsed < 4200) {
+          driftId = requestAnimationFrame(function () { driftLight(start || performance.now()); });
+        }
+      }
+
+      driftLight();
+
+      document.addEventListener('mousemove', function (e) {
+        if (!pointerSeen) {
+          pointerSeen = true;
+          document.body.classList.add('has-pointer');
+          if (driftId) cancelAnimationFrame(driftId);
+        }
+
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(function () {
+          renderLight(e.clientX, e.clientY);
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
