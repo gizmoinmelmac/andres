@@ -873,7 +873,7 @@ NOTES         : known to break things
       // Click outside terminal to close
       document.addEventListener('click', (e) => {
         if (eggState !== 'open') return;
-        if (!terminal.contains(e.target) && e.target !== seqTrigger) closeTerminal();
+        if (!terminal.contains(e.target) && !seqTrigger.contains(e.target)) closeTerminal();
       });
 
       // Focus trap inside terminal
