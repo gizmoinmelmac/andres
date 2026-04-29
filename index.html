@@ -1,1166 +1,872 @@
-<!doctype html>
-<html lang="en" data-safeMod="false" data-autoHideScrollbar="true" data-safeModPageInAnimation="fadeIn" data-inAnimation="fadeInUp" data-outAnimation="fadeOutDownBig" data-cover-h1-tune=".95" data-cover-h2-tune="2.3" data-cover-h3-tune=".6" data-cover-h3-span-tune=".8" data-twitter-name="gizmoinmelmac">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Andrés Fajardo — Founder · CPO · Investor · Advisor">
+  <title>Andrés Fajardo</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
-    <meta name="description" content="andresfajardo.co - Andrés Fajardo Osorio website. eBusiness strategy">
-    <meta name="keywords" content="Andres Fajardo, Andres Fajardo Osorio, TheVentureCity, The Venture City, Home Select, Playtomic, Home Club, WYSH, Fon, Everis, Los Isleños, andres fajardo osorio, faxathome, fax, product">
-    <meta name="author" content="Andres Fajardo">
+  <!-- Spline 3D web component -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
 
-    <title>Andrés Fajardo | andresfajardo.co</title>
+  <!-- Chakra Petch (display) · Azeret Mono (labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&family=Azeret+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 
-    <!-- FAV and TOUCH ICONS -->
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon" href="images/ico/apple-touch-icon.png"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- SCRIPTS -->
-    <script type="text/javascript" src="js/modernizr.js"></script>
-    <!--[if lte IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/selectivizr-min.js"></script>
-    <![endif]-->
+    ::selection {
+      background: var(--accent);
+      color: oklch(10% 0.010 65);
+    }
 
-    <!-- FONTS -->
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Alfa+Slab+One|Nixie+One|Raleway:200,800' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Tulpen+One|Sacramento' rel='stylesheet' type='text/css'>
+    :root {
+      --bg:     oklch(9% 0.012 65);
+      --text:   oklch(87% 0.015 78);
+      --dim:    oklch(56% 0.010 78);
+      --accent: oklch(74% 0.135 82);
+      --rule:   oklch(26% 0.008 68);
+    }
 
-    <!-- STYLES -->
-    <link rel="stylesheet" type="text/css" media="print" href="css/print.css">
-    <link rel="stylesheet" type="text/css" href="css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/animate.css">
-    <link rel="stylesheet" type="text/css" href="css/book.css" />
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery.fancybox-1.3.4.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Azeret Mono', monospace;
+    }
 
-    <link class="cover-skin" rel="stylesheet" type="text/css" href="css/skins/cover/retro.css">
-    <link class="base-skin" rel="stylesheet" type="text/css" href="css/skins/base/modern.css">
-    <link class="paper-bg-skin" rel="stylesheet" type="text/css" href="css/skins/paper-bg/groovepaper.css">
-    <link class="body-bg-skin" rel="stylesheet" type="text/css" href="css/skins/body-bg/watercolor.css">
+    /* Scanlines — DHARMA institutional texture */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 3px,
+        oklch(0% 0 0 / 0.028) 3px,
+        oklch(0% 0 0 / 0.028) 4px
+      );
+      pointer-events: none;
+      z-index: 300;
+    }
 
-    <!-- Google Analytics -->
+    /* Vignette — depth toward edges */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 62% 48%, transparent 38%, oklch(0% 0 0 / 0.58) 100%);
+      pointer-events: none;
+      z-index: 200;
+    }
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    /* ─── Spline scene ─── full-page background */
+    .scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.7s ease-out;
+    }
 
-      ga('create', 'UA-15072671-3', 'andresfajardo.co');
-      ga('send', 'pageview');
+    .scene--unlock {
+      filter: hue-rotate(-12deg) saturate(1.25) brightness(1.06);
+    }
 
-    </script>
+    @media (max-width: 640px) {
+      .scene { transform: scale(1.05); }
+    }
 
-    <!-- Google Analytics -->
+    spline-viewer {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
+    /* Directional veil — left-to-right on desktop so text is legible */
+    .veil {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        108deg,
+        oklch(9% 0.012 65 / 0.97) 0%,
+        oklch(9% 0.012 65 / 0.90) 28%,
+        oklch(9% 0.012 65 / 0.45) 50%,
+        transparent 68%
+      );
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ─── Spotlight ─── follows cursor */
+    #spotlight {
+      position: fixed;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at center,
+        oklch(87% 0.015 78 / 0.15) 0%,
+        oklch(87% 0.015 78 / 0.05) 45%,
+        transparent 70%
+      );
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 15;
+      opacity: 0;
+      will-change: left, top;
+      transition: opacity 0.35s ease;
+    }
+
+    /* ─── Content ─── */
+    .content {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(3rem, 7vw, 7.5rem);
+      max-width: 56%;
+      pointer-events: none;
+    }
+
+    .links a {
+      pointer-events: auto;
+    }
+
+    /* Station label */
+    .station-id {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 2.75rem;
+      font-size: clamp(0.72rem, 0.66rem + 0.18vw, 0.82rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .station-id::before {
+      content: '';
+      width: 1.75rem;
+      height: 1px;
+      background: var(--dim);
+      flex-shrink: 0;
+    }
+
+    /* DHARMA hexagon mark */
+    .hex-mark {
+      margin-bottom: 1.75rem;
+    }
+
+    /* Name */
+    h1 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(3.75rem, 7.5vw, 7rem);
+      font-weight: 600;
+      line-height: 0.85;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    /* Descriptor */
+    .descriptor {
+      font-size: clamp(0.78rem, 0.7rem + 0.24vw, 0.92rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 2.5rem;
+    }
+
+    .sep { color: var(--accent); }
+
+    /* Rule */
+    .hr {
+      width: 2.5rem;
+      height: 1px;
+      background: var(--rule);
+      margin-bottom: 2rem;
+    }
+
+    /* Links */
+    .links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .links a {
+      font-size: clamp(0.76rem, 0.68rem + 0.22vw, 0.88rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.18s ease;
+    }
+
+    .links a:hover { color: var(--accent); }
+
+    /* ─── Bottom signature ─── */
+    .sig {
+      position: fixed;
+      bottom: 2.5rem;
+      left: clamp(3rem, 7vw, 7.5rem);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .sig p {
+      font-size: clamp(0.64rem, 0.58rem + 0.16vw, 0.72rem);
+      letter-spacing: 0.14em;
+      line-height: 1.45;
+      text-transform: uppercase;
+      color: oklch(50% 0.009 75);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Bottom-right corner cover — sits over the Spline badge area */
+    .corner-veil {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 260px;
+      height: 80px;
+      background: radial-gradient(ellipse at 100% 100%, oklch(9% 0.012 65 / 0.96) 0%, transparent 68%);
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* ─── Mobile ─── */
+    @media (max-width: 640px) {
+      /* Flip gradient to bottom-up so robot fills sky, content anchors at foot */
+      .veil {
+        background: linear-gradient(
+          to top,
+          oklch(9% 0.012 65 / 0.98) 0%,
+          oklch(9% 0.012 65 / 0.93) 36%,
+          oklch(9% 0.012 65 / 0.45) 60%,
+          transparent 80%
+        );
+      }
+
+      .content {
+        justify-content: flex-end;
+        max-width: 100%;
+        padding: 2.5rem 2rem 6.5rem;
+      }
+
+      h1 { font-size: clamp(2.75rem, 15vw, 4rem); }
+      .station-id { margin-bottom: 1.75rem; }
+      .hex-mark { display: none; }
+      .sig { bottom: 1.75rem; left: 2rem; }
+    }
+
+    /* ─── Seq trigger ─── */
+    .seq-trigger {
+      cursor: pointer;
+      transition: color 0.22s ease;
+      user-select: none;
+    }
+    .seq-trigger:hover { color: oklch(60% 0.009 75); }
+    .seq-number { display: inline; transition: color 0.25s ease, text-shadow 0.25s ease; }
+    .seq-number--lit { color: var(--accent) !important; text-shadow: 0 0 10px oklch(74% 0.135 82 / 0.55); }
+
+    /* Flash overlay on reveal */
+    .dharma-pulse {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 160;
+      opacity: 0; background: var(--accent);
+    }
+    @keyframes dharma-flash {
+      0%   { opacity: 0; }
+      15%  { opacity: 0.07; }
+      100% { opacity: 0; }
+    }
+    .dharma-pulse.is-active { animation: dharma-flash 0.85s ease-out forwards; }
+
+    /* ─── DHARMA Terminal ─── */
+    .dharma-terminal {
+      position: fixed;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%) translateY(110%);
+      z-index: 250;
+      width: min(560px, 92vw);
+      background: oklch(10% 0.014 68 / 0.97);
+      border: 1px solid var(--accent);
+      border-bottom: none;
+      font-family: 'Azeret Mono', monospace;
+      padding: 1.25rem 1.65rem 1.45rem;
+      pointer-events: auto;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dharma-terminal[data-state] { transform: translateX(-50%) translateY(0); }
+    .dharma-terminal__hdr {
+      font-size: clamp(0.56rem, 0.5rem + 0.16vw, 0.64rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .dharma-track {
+      display: flex; align-items: center;
+      gap: 0.45rem; flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+    .dharma-track__pfx {
+      color: var(--accent);
+      font-size: clamp(0.82rem, 0.76rem + 0.14vw, 0.9rem);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .dharma-chip {
+      font-size: clamp(0.72rem, 0.66rem + 0.16vw, 0.8rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      border: 1px solid oklch(74% 0.135 82 / 0.55);
+      padding: 0.14em 0.48em;
+      letter-spacing: 0.05em;
+      line-height: 1.55;
+    }
+    .dharma-terminal__input {
+      background: transparent; border: none; outline: none;
+      color: var(--text);
+      font-family: 'Azeret Mono', monospace;
+      font-size: clamp(0.74rem, 0.68rem + 0.16vw, 0.82rem);
+      font-variant-numeric: tabular-nums;
+      caret-color: var(--accent);
+      letter-spacing: 0.05em;
+      width: 2.8ch;
+      line-height: 1.55;
+    }
+    .dharma-terminal__input:disabled { opacity: 0; pointer-events: none; width: 0; }
+    .dharma-hint {
+      font-size: clamp(0.56rem, 0.5rem + 0.14vw, 0.64rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase; color: oklch(40% 0.007 72);
+      margin-bottom: 1rem;
+    }
+    .dharma-hint__num { color: var(--dim); }
+    @keyframes dharma-shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-5px); }
+      60%       { transform: translateX(5px); }
+      80%       { transform: translateX(-2px); }
+    }
+    .dharma-shake { animation: dharma-shake 0.25s ease; }
+    .dharma-initiate {
+      display: block; width: 100%;
+      background: none;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Azeret Mono', monospace;
+      font-size: clamp(0.58rem, 0.52rem + 0.14vw, 0.66rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase; padding: 0.65em 1em;
+      cursor: pointer;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.18s ease, color 0.18s ease;
+      pointer-events: none; margin-bottom: 0.85rem;
+    }
+    .dharma-initiate.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dharma-initiate:hover { background: var(--accent); color: oklch(10% 0.010 65); }
+    .dharma-esc {
+      font-size: clamp(0.5rem, 0.46rem + 0.12vw, 0.58rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase; color: oklch(28% 0.006 68);
+      text-align: center;
+    }
+
+    /* ─── DHARMA Personnel File ─── */
+    .dharma-file {
+      position: fixed;
+      top: 50%; right: 0;
+      transform: translateY(-50%) translateX(105%);
+      z-index: 250;
+      width: min(420px, 90vw);
+      max-height: 80vh; overflow-y: auto;
+      background: oklch(10% 0.014 68 / 0.97);
+      border: 1px solid var(--accent); border-right: none;
+      font-family: 'Azeret Mono', monospace;
+      padding: 1.2rem 1.65rem 1.35rem;
+      pointer-events: auto;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+    }
+    .dharma-file[data-state] { transform: translateY(-50%) translateX(0); }
+    .dharma-file__hdr {
+      font-size: clamp(0.54rem, 0.48rem + 0.14vw, 0.62rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.1rem; padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .dharma-file__body {
+      font-size: clamp(0.68rem, 0.62rem + 0.14vw, 0.76rem);
+      line-height: 1.95;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      white-space: pre; margin-bottom: 1.25rem;
+      min-height: 8.5em; font-family: 'Azeret Mono', monospace;
+    }
+    .dharma-ack {
+      display: block; width: 100%;
+      background: none; border: 1px solid var(--rule);
+      color: var(--dim);
+      font-family: 'Azeret Mono', monospace;
+      font-size: clamp(0.54rem, 0.48rem + 0.14vw, 0.62rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase; padding: 0.5em 1em;
+      cursor: pointer;
+      transition: border-color 0.18s ease, color 0.18s ease;
+    }
+    .dharma-ack:hover { border-color: var(--accent); color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .dharma-terminal { width: 100%; border-left: none; border-right: none; }
+      .dharma-file {
+        top: auto; bottom: 0; right: auto; left: 0;
+        width: 100%; max-height: 68vh;
+        border: none; border-top: 1px solid var(--accent);
+        transform: translateY(110%);
+        transition-delay: 0.3s;
+      }
+      .dharma-file[data-state] { transform: translateY(0); }
+      .dharma-file__body {
+        font-size: clamp(0.6rem, 0.54rem + 0.35vw, 0.68rem);
+        letter-spacing: 0.035em;
+        overflow-x: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dharma-terminal, .dharma-file, .dharma-pulse, .seq-number {
+        transition: none !important; animation: none !important;
+      }
+      .dharma-initiate { transition: opacity 0.01s, transform 0.01s !important; }
+    }
+
+    /* ─── π corner trigger ─── */
+    .pi-trigger {
+      position: fixed;
+      bottom: 2.5rem;
+      right: clamp(3rem, 7vw, 7.5rem);
+      z-index: 110;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--dim);
+      text-decoration: none;
+      padding: 0.5rem;
+      transition: color 0.22s ease, text-shadow 0.22s ease;
+    }
+    .pi-trigger:hover,
+    .pi-trigger:focus-visible {
+      color: var(--accent);
+      text-shadow: 0 0 14px oklch(74% 0.135 82 / 0.5);
+      outline: none;
+    }
+    @media (max-width: 640px) {
+      .pi-trigger {
+        bottom: 1.75rem;
+        right: 2rem;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-
-
-        <!-- ************************ MAIN -->
-        <section class="main">
-
-
-            <!-- .rm-container -->
-            <div id="rm-container" class="rm-container rm-closed">
-
-
-                <!-- HEADER -->
-                <header id="header">
-
-                        <!-- NAV MENU -->
-                        <nav>
-                            <ul>
-                                <li><a href='#/home'></a></li>
-                                <li><a href='#/resume'></a></li>
-                                <li><a href='#/portfolio'></a></li>
-                                <li><a href='#/contact'></a></li>
-                            </ul>
-                        </nav>
-                        <!-- NAV MENU -->
-
-                </header>
-                <!-- HEADER -->
-
-
-
-
-                <!-- .rm-wrapper -->
-                <div class="rm-wrapper">
-
-
-
-                    <!-- .rm-cover -->
-                    <div class="rm-cover">
-
-
-                        <!-- COVER PAGE -->
-                        <div id="home" class="rm-front page">
-
-                            <!-- .antiscroll-wrap -->
-                            <div class="antiscroll-wrap">
-                                <!-- .antiscroll-inner -->
-                                <div class="antiscroll-inner">
-
-
-
-                                    <!-- COVER IMAGE -->
-                                    <div class="cover">
-
-                                        <!-- cover-image-holder -->
-                                        <div class="cover-image-holder">
-                                        	<img src="images/site/stormtrooper6.jpg" alt="cover-image">
-                                        </div>
-                                        <!-- cover-image-holder -->
-
-                                        <!-- title -->
-                                        <h1>Andrés Fajardo</h1>
-                                        <!-- title -->
-
-                                        <!-- slogan -->
-                                        <h2>Focused on strategy, Inspired by technology, Born into creativity</h2>
-                                        <!-- slogan -->
-
-                                        <!-- extra titles -->
-                                        <h3><span>I AM</span>a Proud Geek from Planet Earth</h3>
-                                        <h3><span>I LIKE</span>Technology, Lean Businesses & Growth</h3>
-                                        <h3><span>I Love</span>Entrepreneurship, Storytelling and Starwars</h3>
-                                        <!-- extra titles --
-
-                                        <!-- open link -->
-                                        <a href="#/resume" class="rm-button-open ribbon">
-                                            <span class="ribbon-stitches-top"></span>
-                                            <strong class="ribbon-content">OPEN</strong>
-                                            <span class="ribbon-stitches-bottom"></span>
-                                        </a>
-                                        <!-- open link -->
-
-
-                                        <!-- latest-from-blog -->
-                                        <!-- <div class="latest-from-blog">
-                                            <h3>Latest from my blog
-                                                <a class="button2" href="https://medium.com/@faxathome" target="_blank" rel="noopener noreferrer">All Posts</a></h3>
-                                            <div class="blog-bar">
-                                                <h2><a href="https://medium.com/@faxathome" target="_blank" rel="noopener noreferrer">Medium stories...</a></h2>
-                                            </div>
-                                        </div> -->
-                                    <!-- latest-from-blog -->
-
-                                        <!-- widget : twitter -->
-                                        <aside class="widget widget-twitter">
-                                        	<a href="https://twitter.com/FaxAtHome" class="twitter-link" target="_blank" ></a>
-                                            <div id="twitter-list"></div>
-                                        </aside>
-                                        <!-- widget : twitter -->
-
-
-                                    </div>
-                                    <!-- COVER IMAGE -->
-
-
-
-
-                              </div>
-                              <!-- .antiscroll-inner -->
-                            </div>
-                            <!-- .antiscroll-wrap -->
-
-                        </div>
-                        <!-- COVER PAGE -->
-
-
-
-
-						<!-- RESUME PAGE -->
-                        <div id="resume" class="rm-back page">
-
-                            <!-- .antiscroll-wrap -->
-                            <div class="antiscroll-wrap">
-                                <!-- .antiscroll-inner -->
-                                <div class="antiscroll-inner">
-
-                                        <!-- CONTENT -->
-                                        <div class="content">
-
-
-                                            <h2><span>RESUME</span></h2>
-
-                                            <h4 class="about-text">Hello there, Thanks for stoping by! Here you can find  information about me; <span class="label">Entrepreneur</span> | <span class="label">VC Investor</span> | <span class="label">Product guy</span> | <span class="label">Startup Advisor</span>; participating in the fascinating Technology-Internet industry)</h4>
-
-                                           <h3><span>EMPLOYMENT</span></h3>
-
-                                            <!-- EMPLOYMENT -->
-                                            <div class="history-group">
-
-                                              <!-- .history-unit -->
-                                              <div class="history-unit">
-
-                                                <h4 class="work-time">2023 - Today</h4>
-
-                                                <div class="work-desc">
-                                                    <h4>CPO</h4>
-                                                    <h5><a href="https://joinsesh.app" target="_blank">sesh</a></h5>
-                                                    <p>sesh redefines artist-fan engagement with exclusive sessions, Streaming Parties, and interactive experiences, all in one platform. Artists share insights, offer exclusive merch, and set streaming targets, encouraging collective fan support. The Fanverse and Rankings gamify participation, deepening connections and enhancing the music experience.</p>
-                                                </div>
-
-                                            </div>
-                                            <!-- .history-unit -->
-                                            <!-- .history-unit -->
-                                            <div class="history-unit">
-
-                                                <h4 class="work-time">2019 - Today</h4>
-
-                                                <div class="work-desc">
-                                                    <h4>Seed investor & CPO</h4>
-                                                    <h5><a href="https://dixper.gg" target="_blank">Dixper</a></h5>
-                                                    <p>Dixper is an interactive platform for streamers and viewers. Through Dixper, streamers can amplify their income by selling 'Skills' which their viewers can send to their streams. These 'Skills' are real interactions that in real-time affect the gameplay of a stream.</p>
-                                                </div>
-
-                                            </div>
-                                            <!-- .history-unit -->
-                                                <!-- .history-unit -->
-                                              <div class="history-unit">
-
-                                                  <h4 class="work-time">2019 - 2022</h4>
-
-                                                  <div class="work-desc">
-                                                      <h4>Operating Partner | VP of Product</h4>
-                                                      <h5><a href="https://theventure.city" target="_blank">TheVentureCity</a></h5>
-                                                      <p>A new venture and acceleration model that helps diverse founders achieve global impact.</p>
-                                                  </div>
-
-                                              </div>
-                                              <!-- .history-unit -->
-
-                                              <!-- .history-unit -->
-                                              <div class="history-unit">
-
-                                                  <h4 class="work-time">2018 - Today</h4>
-
-                                                  <div class="work-desc">
-                                                      <h4>Founder & CEO</h4>
-                                                      <h5><a href="http://curubaventures.com" target="_blank">Curuba Ventures</a></h5>
-                                                      <p>We design, build and invest in new tech companies that solve real problems in emerging economies. Together with passionate founders, top corporates and selected investment partners, we empower entrepreneurship born in Latin America and Spain.</p>
-                                                  </div>
-
-                                              </div>
-                                              <!-- .history-unit -->
-
-
-                                              <!-- .history-unit -->
-                                              <div class="history-unit">
-
-                                                  <h4 class="work-time">2018 - 2019</h4>
-
-                                                  <div class="work-desc">
-                                                      <h4>Chief Product Officer</h4>
-                                                      <h5><a href="http://playtomic.io" target="_blank">Playtomic</a>, (<a href="http://www.syltek.com" target="_blank">Syltek</a>)</h5>
-                                                      <p>Reporting to the CEO and Chairman of the company, I define and manage the product strategy roadmap for playtomic's both B2B SaaS (playtomic manager and syltek) and B2C products and services (playtomic web service and mobile applications).</p>
-                                                  </div>
-
-                                              </div>
-                                              <!-- .history-unit -->
-
-                                              <!-- .history-unit -->
-                                              <div class="history-unit">
-
-                                                  <h4 class="work-time">2016 - 2018</h4>
-
-                                                  <div class="work-desc">
-                                                      <h4>General Manager/COO</h4>
-                                                      <h5><a href="http://www.homeselect.com" target="_blank">Home Select Group</a>, (<a href="http://www.homeclub.com" target="_blank">Home Club</a> & <a href="http://www.villaclub.com" target="_blank">Villa Club)</a></h5>
-                                                      <p>Reporting to the CEO and Chairman of the company, I provide strategic advice to the shareholders, oversee financial performance, potential investments and business ventures. I manage and optimize day to day operations of Home Select’s 360º business segments and associated P & L’s: Real Estate, Hospitality (Commercial & Property Management) and Interior Design. ✪ Position between CEO & Senior management. 10 Direct reports (Including CFO, department heads and BU directors).</p>
-                                                  </div>
-
-                                              </div>
-                                              <!-- .history-unit -->
-
-                                                <!-- .history-unit -->
-                                                <div class="history-unit">
-
-                                                    <h4 class="work-time">2015 - 2016</h4>
-
-                                                    <div class="work-desc">
-                                                        <h4>Co-Founder & CPO</h4>
-                                                        <h5><a href="http://www.wysh.travel" target="_blank">WYSH</a></h5>
-                                                        <p>WYSH is making authentic travel easy by allowing travellers to customize trips via an intuitive portal that inspires you through unique content and real-time access to local insiders. ✪ The <a href="http://www.europapress.es/turismo/hoteles/noticia-grupo-hotusa-compra-startup-viajes-personalizados-wysh-travel-20170412143642.html" target="_blank">company was sold</a> to the <a href="http://www.hotusagroup.com" target="_blank">Hotusa Group</a>, an organization comprising several companies connected with diverse spheres of activity in the tourist sector.</p>
-                                                    </div>
-
-                                                </div>
-                                                <!-- .history-unit -->
-
-                                                <!-- .history-unit -->
-                                                <div class="history-unit">
-
-                                                    <h4 class="work-time">2012 - 2015</h4>
-
-                                                    <div class="work-desc">
-                                                        <h4>Head of Product</h4>
-                                                        <h5><a href="http://www.fon.com" target="_blank">FON</a> | <a href="http://www.gramofon.com" target="_blank">Gramofon</a></h5>
-                                                        <p>Created and lead Fon’s product development department performed by a multi-disciplinary team whose goal is defining, maintaining and optimizing Fon’s products and user experience for our partners and end customers.</p>
-                                                    </div>
-
-                                                </div>
-                                                <!-- .history-unit -->
-
-                                                <!-- .history-unit -->
-                                                <div class="history-unit">
-
-                                                    <h4 class="work-time">2011 - 2012</h4>
-
-                                                    <div class="work-desc">
-
-                                                        <h4>Business Development Manager</h4>
-                                                        <h5><a href="http://www.fon.com" target="_blank">FON</a></h5>
-                                                        <p>Responsible for the acquisition and development of new partnerships with telecommunication companies ✪ Developed non-telco deals with global brands to launch Fon’s first public wiFi service (The Coca-Cola company) ✪ Defined Fon’s new product development strategy which led to new responsibilities as Fon’s head of product development.</p>
-
-                                                    </div>
-
-                                                </div>
-                                                <!-- .history-unit -->
-
-                                                <!-- .history-unit -->
-                                                <div class="history-unit">
-
-                                                    <h4 class="work-time">2006 - 2009</h4>
-
-                                                    <div class="work-desc">
-
-                                                        <h4>Strategy and Business Consultant</h4>
-                                                        <h5><a href="http://www.everis.com" target="_blank">EVERIS</a></h5>
-                                                        <p>Offered management consulting and business development services to multinational companies primarily in the Telecom, Utilities & Media industries.</p>
-
-                                                    </div>
-
-                                                </div>
-                                                <!-- .history-unit -->
-                                            </div>
-                                        <!-- EMPLOYMENT -->
-
-
-
-                                        <h3><span>EDUCATION</span></h3>
-
-                                        <!-- EDUCATION -->
-                                         <div class="history-group">
-
-
-                                            <!-- .history-unit -->
-                                            <div class="history-unit">
-
-                                                <h4 class="work-time">2009 - 2010</h4>
-
-                                                <div class="work-desc">
-
-                                                    <h4>International MBA</h4>
-                                                    <h5>IE Business School</h5>
-                                                    <p>“Accelerate Scholarship 2008” granted by the "IE Foundation".</p>
-
-                                                </div>
-
-                                            </div>
-                                            <!-- .history-unit -->
-
-                                            <!-- .history-unit -->
-                                            <div class="history-unit">
-
-                                                <h4 class="work-time">2008 - 2009</h4>
-
-                                                <div class="work-desc">
-
-                                                    <h4>Postgraduate Degree, Media and Entertainment Business Management </h4>
-                                                    <h5>UNED</h5>
-                                                    <p>EU Bologna Degree, 24 ECTS credits.</p>
-
-                                                </div>
-
-                                            </div>
-                                            <!-- .history-unit -->
-
-                                            <!-- .history-unit -->
-                                            <div class="history-unit">
-
-                                                <h4 class="work-time">1999 - 2006</h4>
-
-                                                <div class="work-desc">
-
-                                                    <h4>B.Sc. Electronics Engineering / B.Sc. Mechanical Engineering</h4>
-                                                    <h5>Universidad de los Andes</h5>
-                                                    <p>Dual Degree Program - Specialization: Telecommunications & Engineering Economics.</p>
-
-                                                </div>
-
-                                            </div>
-                                            <!-- .history-unit -->
-                                        </div>
-                                        <!-- EDUCATION -->
-
-
-
-                                        <!-- DOWNLOAD BUTTON -->
-                                        <div class="launch">
-                                            <a href="#" class="btn">CV UPON REQUEST</a>
-                                        </div>
-                                     	<!-- DOWNLOAD BUTTON -->
-
-                                         <!-- HIGHLIGHTS -->
-
-                                        <h3><span>HIGHLIGHTS</span></h3>
-                                        <p> MBA +10 years of experience ✪ Entrepreneur (succesful exit) ✪ Revenue & Profit growth ✪ Company management ✪ Product Strategy & Roadmap ✪ P&L management/Budgeting ✪ Digital transformation ✪ Start-ups, Privately owned firms to Large consulting firms ✪ Tech-Savvy and data oriented (BI) ✪ Multiple industry background ✪ Led International Teams With 10+ Direct Reports ✪ Team Leadership/Team Restructuring/Hiring</p>
-
-                                        <!-- HIGHLIGHTS -->
-                                            <h3><span>LANGUAGES</span></h3>
-
-                                        <!-- LANGUAGES SKILLS -->
-                                        <div class="skill-group">
-
-                                            <!-- .skill-unit -->
-                                            <div class="skill-unit">
-                                                <h4>Spanish</h4>
-                                                <div class="bar" data-percent="100">
-                                                    <div class="progress"></div>
-                                                </div>
-                                            </div>
-                                            <!-- .skill-unit -->
-
-                                            <!-- .skill-unit -->
-                                            <div class="skill-unit">
-                                                <h4>English... brought to you by HBO,Cinemax & Nickelodeon in the 80's</h4>
-                                                <div class="bar" data-percent="98">
-                                                    <div class="progress"></div>
-                                                </div>
-                                            </div>
-                                            <!-- .skill-unit -->
-
-                                            <!-- .skill-unit -->
-                                            <div class="skill-unit">
-                                                <h4>German... getting there</h4>
-                                                <div class="bar" data-percent="55">
-                                                    <div class="progress"></div>
-                                                </div>
-                                            </div>
-                                            <!-- .skill-unit -->
-
-
-                                            <!-- .skill-unit -->
-                                            <div class="skill-unit">
-                                                <h4>Japanese... currently taking classes</h4>
-                                                <div class="bar" data-percent="10">
-                                                    <div class="progress"></div>
-                                                </div>
-                                            </div>
-                                            <!-- .skill-unit -->
-
-                                        </div>
-                                        <!-- LANGUAGES SKILLS -->
-
-
-
-
-                                        <h3><span>TESTIMONIALS... I WISH ;)</span></h3>
-
-
-                                        <!-- TESTIMONIALS -->
-                                        <div class="testo-group">
-
-                                            <!-- Testimonial -->
-                                            <div class="testo">
-                                                <img src="images/site/testo-01_stephen.jpg" alt="someone">
-                                                <div class="text">
-                                                  <h4>Stephen William Hawking<span>CEO / Fringe Inc.</span></h4>
-                                                    <p>He is a great and hardworking guy. I am so proud of him. He helped me so much.</p>
-                                                </div>
-                                            </div>
-                                            <!-- Testimonial -->
-
-                                            <!-- Testimonial -->
-                                            <div class="testo">
-                                                <img src="images/site/testo-01_george.jpg" alt="someone">
-                                                <div class="text">
-                                                  <h4>George Lucas<span>Filmaker / Producer</span></h4>
-                                                    <p>He was a great co-worker and a friend. I would't be where I am without his support.</p>
-                                                </div>
-                                            </div>
-                                            <!-- Testimonial -->
-
-                                            <!-- Testimonial -->
-                                            <div class="testo">
-                                                <img src="images/site/testo-01_maynard.jpg" alt="someone">
-                                                <div class="text">
-                                                  <h4>Maynard James Keenan <span>Tool/A perfect circle/Puscifer lead singer</span></h4>
-                                                    <p>He is... ok</p>
-                                                </div>
-                                            </div>
-                                            <!-- Testimonial -->
-
-                                        </div>
-                                        <!-- TESTIMONIALS -->
-
-
-
-                                            <h3><span>FUN FACTS</span></h3>
-
-                                       <!-- service -->
-                                            <div class="service">
-                                                <i class="icon-coffee"></i>
-                                                <h4>Coffee</h4>
-                                                <p>I'm Colombian, hence I love Coffee, so here a few facts:  Legend has it... Ethiopian shepereds first noticed the effects of caffeine when they saw their goats appearing to become frisky and "dance after eating coffee berries ✪ George Washington invented instant coffee... (yes, a Belgian man in Guatemala by the name of George Washington invented it in 1906).</p>
-                                            </div>
-                                            <!-- service -->
-
-                                        <!-- SERVICES -->
-                                        <div class="service-group">
-
-
-                                            <!-- service -->
-                                            <div class="service">
-                                                <i class="icon-film"></i>
-                                                <h4>Movies & Scripts</h4>
-                                                <p>I won best script for “The X Files” TV series, (FOX Broadcasting Company) 2000. I kid you not. ✪ Darth Vader only has 12 minutes of screen time in the original Star Wars ✪ Sean Connery is only 12 years older than Harrison Ford ✪ R2D2 and C3PO appear as Hieroglyphics in the Ark's chamber in Indiana Jones: Raiders of the lost ark.</p>
-                                            </div>
-                                            <!-- service -->
-
-                                            <!-- service -->
-                                            <div class="service">
-                                                <i class="icon-music"></i>
-                                                <h4>Music</h4>
-                                                <p>Warner Chappel Music makes over $1 million every year in royalties from the commercial use of the song “Happy Birthday ✪ The airplane that Buddy Holly died in was called American Pie. Don McLean wrote a song with the same name about the accident ✪ Most toilets flush in E flat. ✪ Dark Side of The Moon (a Pink Floyd album) stayed on the top 200 Billboard charts for 741 weeks! That is 14 years. ✪ Children who study a musical instrument are more likely to excel in all of their studies, work better in teams, have enhanced critical thinking skills, stay in school, and pursue further education ✪ Learning and mastering a musical instrument improves the way the brain breaks down and understands human language, making music students more apt to pick up a second language.</p>
-                                            </div>
-                                            <!-- service -->
-
-                                            <!-- service -->
-                                            <div class="service">
-                                                <i class="icon-magic"></i>
-                                                <h4>Stuff</h4>
-                                                <p>It is estimated that millions of trees grow thanks to squirrels  forgetting where the buried their nuts. ✪ 111,111,111 x 111,111,111 = 12,345,678,987,654,321 ✪ “Typewriter” is the longest word typed on only one keyboard row (try it!) ✪ “Stewardesses” is the longest word typed on just one half of the keyboard (try that too!).</p>
-                                            </div>
-                                            <!-- service -->
-
-
-                                        </div>
-                                        <!-- SERVICES -->
-
-
-                                        </div>
-                                        <!-- CONTENT -->
-
-                                    </div>
-                              		<!-- .antiscroll-inner -->
-                                </div>
-                                <!-- .antiscroll-wrap -->
-
-
-                            <div class="rm-overlay"></div>
-
-                        </div>
-                        <!-- RESUME PAGE -->
-
-
-                    </div><!-- /rm-cover -->
-
-
-
-
-
-
-
-					<!-- PORTFOLIO PAGE -->
-                    <div id="portfolio" class="rm-middle portfolio page">
-
-                    	<!-- .rm-inner -->
-                        <div class="rm-inner">
-
-
-                                <!-- .antiscroll-wrap -->
-                                <div class="antiscroll-wrap">
-                                    <!-- .antiscroll-inner -->
-                                    <div class="antiscroll-inner">
-
-
-
-
-                                        <!-- CONTENT -->
-                                        <div class="content">
-
-
-                                            <h2><span>PORTFOLIO</span></h2>
-
-
-                                            <!--FILTERS-->
-                                            <ul id="filters">
-                                              <li class="current"><a href="#" data-filter="*">ALL</a></li>
-                                              <li><a href="#" data-filter=".web">CODING</a></li>
-                                              <li><a href="#" data-filter=".music">MUSIC</a></li>
-                                              <li><a href="#" data-filter=".video">VIDEO</a></li>
-                                              <li><a href="#" data-filter=".design">DESIGN</a></li>
-                                              <li><a href="#" data-filter=".photos">PHOTOS</a></li>
-                                            </ul>
-                                            <!--FILTERS-->
-
-
-
-                                            <!-- PORTFOLIO -->
-                                            <div class="portfolio-items">
-                                            <!-- FAX PORTFOLIO -->
-
-                                            <!-- portfolio-item -->
-                                              <div class="web hentry x2">
-                                                  <div class="media-box">
-                                                      <img src="images/portfolio/04_smartbrain.jpg" alt="portfolio-post">
-                                                      <div class="mask">
-                                                          <a href="https://fax-smartbrain.herokuapp.com/" target="_blank"></a>
-                                                      </div>
-                                                  </div>
-                                                  <h4>Face Recognition</h4>
-                                                  <p class="category">HTML CSS JS REACT NODE project</p>
-                                               </div>
-                                              <!-- portfolio-item -->
-
-                                            <!-- portfolio-item - custom url -->
-                                              <div class="web url hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/01_background.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="https://faxathome.github.io/background-generator/" target="_blank"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Background Generator</h4>
-                                                <p class="category">HTML, CSS & javaScript</p>
-                                              </div>
-                                            <!-- portfolio-item - custom url -->
-
-                                            <!-- portfolio-item - custom url -->
-                                              <div class="web url hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/02_faxifood.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="http://andresfajardo.co/faxifood/" target="_blank"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>FaxiFood</h4>
-                                                <p class="category">Fake delivery site | HTML & CSS</p>
-                                              </div>
-                                            <!-- portfolio-item - custom url -->
-
-                                              <!-- portfolio-item -->
-                                                <div class="web hentry x2">
-                                                    <div class="media-box">
-                                                        <img src="images/portfolio/thumb_desk_binarysunset2.jpg" alt="portfolio-post">
-                                                        <div class="mask">
-                                                            <a href="portfolio-binarysunset.html" class="ajax"></a>
-                                                        </div>
-                                                    </div>
-                                                    <h4>Binary Sunset</h4>
-                                                    <p class="category">Rails 4 Application</p>
-                                                 </div>
-                                                <!-- portfolio-item -->
-
-
-                                                <!-- portfolio-item - custom url -->
-                                                  <div class="web url hentry">
-                                                    <div class="media-box">
-                                                        <img src="images/portfolio/triolosislenos.jpg" alt="portfolio-post">
-                                                        <div class="mask">
-                                                            <a href="http://www.triolosislenos.com" target="_blank"></a>
-                                                        </div>
-                                                    </div>
-                                                    <h4>triolosislenos.com</h4>
-                                                    <p class="category">Tribute to my grandfather</p>
-                                                  </div>
-                                                <!-- portfolio-item - custom url -->
-
-                                                <!-- portfolio-item -->
-                                                  <div class="photos design hentry">
-                                                    <div class="media-box">
-                                                        <img src="images/portfolio/Jedi_AndresFajardo.jpg" alt="portfolio-post">
-                                                        <div class="mask">
-                                                            <a href="portfolio-jedi.html" class="ajax"></a>
-                                                        </div>
-                                                    </div>
-                                                    <h4>Jedi Knight</h4>
-                                                    <p class="category">Photoshop project</p>
-                                                  </div>
-                                                <!-- portfolio-item -->
-
-                                                <!-- portfolio-item - lightbox soundcloud -->
-                                                <div class="music audio hentry">
-                                                  <div class="media-box">
-                                                      <img src="images/portfolio/22.jpg" alt="portfolio-post">
-                                                      <div class="mask">
-
-                                                          <!-- lightbox - soundcloud -->
-                                                          <a href="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F89079969" title="San Telmo - Amy Fajardo" data-lightbox-gallery="fancybox-item-04" class="lightbox iframe"></a>
-                                                       </div>
-                                                  </div>
-                                                  <h4>San Telmo - Amy Fajardo</h4>
-                                                  <p class="category">Soundcloud test</p>
-                                                </div>
-                                            <!-- portfolio-item - lightbox soundcloud -->
-
-                                             <!-- portfolio-item -->
-                                              <div class="web music hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/19.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="dark-room.htm" target="_blank"></a>
-
-                                                    </div>
-                                                </div>
-                                                <h4>A dark room...</h4>
-                                                <p class="category">HTML and Music</p>
-                                              </div>
-                                            <!-- portfolio-item -->
-
-                                            <!-- portfolio-item -->
-                                              <div class="web hentry x2">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/yosetteosorio.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-yosetteosorio.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>yosetteosorio.com</h4>
-                                                <p class="category">Website (in spanish)</p>
-                                              </div>
-                                            <!-- portfolio-item -->
-
-                                            <!-- portfolio-item - lightbox gallery -->
-                                              <div class="photos image hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/23.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-
-                                                <!-- lightbox - gallery -->
-                                                        <a href="images/portfolio/lightbox-05.jpg" data-lightbox-gallery="fancybox-item-02" class="lightbox" title="TOOL"></a>
-                                                        <a href="images/portfolio/lightbox-06.jpg" data-lightbox-gallery="fancybox-item-02" class="hidden lightbox" title="Piano"></a>
-                                                        <a href="images/portfolio/lightbox-07.jpg" data-lightbox-gallery="fancybox-item-02" class="hidden lightbox" title="no music...no life !"></a>
-                                                <!-- lightbox - gallery -->
-
-                                                    </div>
-                                                </div>
-                                                <h4>A picture is worth a thousand words</h4>
-                                                <p class="category">Image gallery test</p>
-                                              </div>
-                                             <!-- portfolio-item - lightbox gallery -->
-
-                                             <!-- portfolio-item - custom url -->
-                                              <div class="web hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/amyfajardo_site.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="http://amyfajardo.com" target="_blank"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>amyfajardo.com</h4>
-                                                <p class="category">My sister's Website</p>
-                                              </div>
-                                            <!-- portfolio-item - custom url -->
-
-                                            <!-- portfolio-item - lightbox video -->
-                                              <div class="video hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/18.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-
-                                                        <!-- lightbox - video -->
-                                                        <a href="http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2013/05/16/death-star-destroys-enterprise-special-edition" title="Death Star destroys enterprise! by IGN" data-lightbox-gallery="fancybox-item-03" class="lightbox iframe"></a>
-                                                        <!-- lightbox - video -->
-
-                                                    </div>
-                                                </div>
-                                                <h4>Death Star destroys enterprise! by IGN</h4>
-                                                <p class="category">Videos that I LOVE !!</p>
-                                              </div>
-                                          <!-- portfolio-item - lightbox video -->
-
-
-                                          <!-- portfolio-item - lightbox video -->
-                                              <div class="video hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/rvd2.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-
-                                                        <!-- lightbox - video -->
-                                                        <a href="https://www.youtube.com/embed/RATMJ8JH1qo" title="RvD2: Ryan vs Dorkman 2" data-lightbox-gallery="fancybox-item-03" class="lightbox iframe"></a>
-                                                        <!-- lightbox - video -->
-
-                                                    </div>
-                                                </div>
-                                                <h4>RvD2: Ryan vs. Dorkman 2</h4>
-                                                <p class="category">Videos that I LOVE !!</p>
-                                              </div>
-                                            <!-- portfolio-item - lightbox video -->
-
-
-                                            <!-- FAX PORTFOLIO FAX PORTFOLIO  FAX PORTFOLIO -->
-
-
-
-                                              <!-- portfolio-item -->
-                                              <!-- <div class="design hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/01.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-item-01.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Happy Bear</h4>
-                                                <p class="category">an illustration work</p>
-                                              </div> -->
-                                              <!-- portfolio-item -->
-
-
-                                              <!-- portfolio-item -->
-                                              <!-- <div class="coding hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/03.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-item-02.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Old Guy Superman</h4>
-                                                <p class="category">illustration by Dave Mottram</p>
-                                              </div> -->
-                                              <!-- portfolio-item -->
-
-
-                                              <!-- portfolio-item - lightbox video -->
-                                         <!--      <div class="coding video hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/07.jpg" alt="portfolio-post">
-                                                    <div class="mask"> -->
-
-                                                        <!-- lightbox - video -->
-                                                       <!--  <a href="http://player.vimeo.com/video/37254322?badge=0&amp;color=ffffff" title="Paper by FiftyThree" data-lightbox-gallery="fancybox-item-03" class="lightbox iframe"></a> -->
-                                                        <!-- lightbox - video -->
-
-                                            <!--         </div>
-                                                </div>
-                                                <h4>Paper by FiftyThree</h4>
-                                                <p class="category">Lightbox Video</p>
-                                              </div> -->
-                                              <!-- portfolio-item - lightbox video -->
-
-
-                                              <!-- portfolio-item - lightbox image -->
-                                            <!--   <div class="design image hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/06.jpg" alt="portfolio-post">
-                                                    <div class="mask"> -->
-
-                                                        <!-- lightbox - image -->
-                                                    <!--     <a href="images/portfolio/lightbox-01.jpg" title="Animal with love" data-lightbox-gallery="fancybox-item-01" class="lightbox"></a> -->
-                                                        <!-- lightbox - image -->
-
-                                                 <!--    </div>
-                                                </div>
-                                                <h4>Lightbox Image</h4>
-                                                <p class="category">a booking mobile app</p>
-                                              </div> -->
-                                              <!-- portfolio-item - lightbox image -->
-
-
-
-
-                                              <!-- portfolio-item - custom url -->
-                                              <!-- <div class="logo url hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/10.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="http://themeforest.net/user/pixelwars" target="_blank"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Character Sketches</h4>
-                                                <p class="category">illustration / sketch</p>
-                                              </div> -->
-                                              <!-- portfolio-item - custom url -->
-
-
-                                              <!-- portfolio-item -->
-                                              <!-- <div class="coding hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/16.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-item-03.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Cross Browser</h4>
-                                                <p class="category">an illustration work</p>
-                                              </div> -->
-                                              <!-- portfolio-item -->
-
-
-                                              <!-- portfolio-item -->
-                                              <!-- <div class="design hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/14.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-item-01.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>404 Page</h4>
-                                                <p class="category">an illustration work</p>
-                                              </div> -->
-                                              <!-- portfolio-item -->
-
-
-                                              <!-- portfolio-item -->
-                                              <!-- <div class="design hentry">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/15.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-item-02.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Rat</h4>
-                                                <p class="category">an illustration work</p>
-                                              </div> -->
-                                              <!-- portfolio-item -->
-
-
-                                               <!-- portfolio-item -->
-                                              <!-- <div class="logo hentry x2">
-                                                <div class="media-box">
-                                                    <img src="images/portfolio/11.jpg" alt="portfolio-post">
-                                                    <div class="mask">
-                                                        <a href="portfolio-item-03.html" class="ajax"></a>
-                                                    </div>
-                                                </div>
-                                                <h4>Working Dudes</h4>
-                                                <p class="category">an illustration work</p>
-                                              </div> -->
-                                              <!-- portfolio-item -->
-
-
-
-                                            </div>
-                                            <!-- PORTFOLIO -->
-
-
-
-
-
-
-                                        </div>
-                                        <!-- CONTENT -->
-
-
-
-                                    </div>
-                              		<!-- .antiscroll-inner -->
-                                </div>
-                                <!-- .antiscroll-wrap -->
-
-
-                            <div class="rm-overlay"></div>
-
-                        </div><!-- /rm-inner -->
-                    </div><!-- /rm-middle -->
-					<!-- PORTFOLIO PAGE -->
-
-
-
-					<!-- RIGHT SIDE -->
-                    <div class="rm-right">
-
-
-
-                        <!-- .rm-front -->
-                        <div class="rm-front">
-
-                            <!-- BACK COVER IMAGE -->
-                            <div class="cover">
-
-                                <!-- cover-image-holder -->
-                                <div class="cover-image-holder">
-                                    <img src="images/site/cover-vader.jpg" alt="cover-image">
-                                </div>
-                                <!-- cover-image-holder -->
-
-                            </div>
-                            <!-- BACK COVER IMAGE -->
-
-                        </div>
-                        <!-- .rm-front -->
-
-
-
-
-                        <!-- CONTACT PAGE -->
-                        <div id="contact" class="rm-back page">
-
-
-
-
-
-                                <!-- .antiscroll-wrap -->
-                                <div class="antiscroll-wrap">
-                                    <!-- .antiscroll-inner -->
-                                    <div class="antiscroll-inner">
-
-
-                                        <!-- CONTENT -->
-                                        <div class="content">
-
-
-                                            <h2><span>CONTACT</span></h2>
-
-
-                                            <!--<h3>Where am I in this world?</h3>
-                                            <div class="map">
-
-                                                    <iframe src="https://maps.google.com/maps?source=s_q&amp;f=q&amp;hl=en&amp;geocode=&amp;q=little+italy&amp;aq=&amp;sll=36.558188,-86.709595&amp;sspn=3.878053,8.453979&amp;ie=UTF8&amp;hq=&amp;hnear=Little+Italy,+New+York&amp;t=p&amp;ll=40.84706,-73.125&amp;spn=6.647611,26.367188&amp;z=5&amp;output=embed"></iframe>
-
-                                            </div>-->
-
-
-                                              <p class="center">Please feel free to contact me about anything.</p>
-
-                                              <h3><span>LET'S SOCIALIZE</span></h3>
-
-                                              <!-- SOCIAL -->
-                                              <ul class="social">
-                                                <li><a class="twitter" href="https://twitter.com/GizmoInMelmac" target="_blank"></a></li>
-                                                <li><a class="linkedin" href="http://www.linkedin.com/in/andresfajardo" target="_blank"></a></li>
-                                               <li><a class="instagram" href="https://www.instagram.com/gizmoinmelmac/" target="_blank"></a></li>
-                                                <li><a class="github" href="https://github.com/gizmoinmelmac" target="_blank"></a></li>
-
-                                               <!--  <li><a class="facebook" href="#"></a></li>
-                                                <li><a class="twitter" href="#"></a></li>
-                                                <li><a class="linkedin" href="#"></a></li>
-                                                <li><a class="google" href="#"></a></li>
-                                                <li><a class="pinterest" href="#"></a></li>
-                                                <li><a class="github" href="#"></a></li>
-                                                <li><a class="behance" href="#"></a></li>
-                                                <li><a class="dribble" href="#"></a></li>
-                                                <li><a class="lastfm" href="#"></a></li>
-                                                <li><a class="rss" href="#"></a></li>
-                                                <li><a class="vimeo" href="#"></a></li>
-                                                <li><a class="forrst" href="#"></a></li>
-                                                <li><a class="skype" href="#"></a></li>
-                                                <li><a class="picassa" href="#"></a></li>
-                                                <li><a class="youtube" href="#"></a></li>
-                                                <li><a class="flickr" href="#"></a></li>
-                                                <li><a class="tumblr" href="#"></a></li>
-                                                <li><a class="blogger" href="#"></a></li>
-                                                <li><a class="delicious" href="#"></a></li>
-                                                <li><a class="digg" href="#"></a></li>
-                                                <li><a class="friendfeed" href="#"></a></li>
-                                                <li><a class="wordpress" href="#"></a></li> -->
-                                              </ul>
-                                              <!-- SOCIAL -->
-
-
-                                              <h3><span>DROP ME A LINE!</span></h3>
-
-                                              <!-- .contact-form -->
-                                              <div class="contact-form">
-
-
-                                                <!-- LETTER -->
-                                                <div class="letter cf">
-
-                                                    <div class="stamp">
-                                                  	  <img src="images/site/Andrew-small-site.jpg" alt="stamp">
-                                                    </div>
-
-                                                    <div class="letter-info">
-                                                        <h4>Andrés Fajardo</h4>
-                                                        <!-- <p><a href="mailto:andresfajardo@me.com"><i>andresfajardo@me.com</i></a></p> -->
-                                                        <p>Always in Beta - Planet Earth</p>
-                                                     </div>
-
-                                                  </div>
-                                                  <!-- LETTER -->
-
-                                              </div>
-                                              <!-- .contact-form -->
-
-                                        </div>
-                                        <!-- CONTENT -->
-
-
-
-
-                                </div>
-                                <!-- .antiscroll-inner -->
-                            </div>
-                            <!-- .antiscroll-wrap -->
-
-
-                            <!-- close link -->
-                            <a class="rm-close"><span></span></a>
-                            <!-- close link -->
-
-
-                        </div><!-- /rm-back -->
-                        <!-- CONTACT PAGE -->
-
-
-
-                    </div><!-- /rm-right -->
-                    <!-- RIGHT SIDE -->
-
-
-
-
-                </div><!-- /rm-wrapper -->
-
-            </div><!-- /rm-container -->
-
-        </section>
-        <!-- ************************ MAIN -->
-
-
-
-
-        <!-- ************************ PORTFOLIO OVERLAY -->
-        <div class="p-overlay">
-
-        </div>
-        <!-- ************************ PORTFOLIO OVERLAY -->
-
-        <!-- ************************ PORTFOLIO OVERLAY -->
-        <div class="p-overlay">
-
-        </div>
-        <!-- ************************ PORTFOLIO OVERLAY -->
-
-
-
-        <!-- ************************ AJAX LOADER -->
-        <div class="loader"></div>
-        <!-- ************************ AJAX LOADER -->
-
-
-        <!-- ************************ ALERT -->
-        <div class="alert"></div>
-        <!-- ************************ ALERT -->
-
-
-        <!-- SCRIPTS -->
-        <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.8.3.min.js"><\/script>')</script>
-        <script src="js/jquery.address-1.5.min.js"></script>
-        <script src="js/antiscroll.js"></script>
-        <script src="js/jquery.fittext.js"></script>
-		    <script src="js/jquery.imagesloaded.min.js"></script>
-        <script src="js/jquery.isotope.min.js"></script>
-        <script src="js/jquery.fitvids.js"></script>
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="js/jquery.fancybox-1.3.4.pack.js"></script>
-        <script src="js/send-mail.js"></script>
-        <script src="js/twitterFetcher_v10_min.js"></script>
-        <script src="js/main.js"></script>
-
-
-    </body>
+  <!-- Spline 3D scene — full-page background -->
+  <!-- Note: a "Built with Spline" badge appears bottom-right; requires Spline Pro to remove -->
+  <div class="scene">
+    <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"></spline-viewer>
+  </div>
+
+  <div class="veil"></div>
+  <div class="corner-veil"></div>
+  <div id="spotlight"></div>
+
+  <main class="content">
+
+    <p class="station-id">Station 04 — The Architect</p>
+
+    <!-- DHARMA hex seal -->
+    <div class="hex-mark" aria-hidden="true">
+      <svg width="46" height="52" viewBox="0 0 46 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23 2L44 14V38L23 50L2 38V14L23 2Z"
+              stroke="#3a3630" stroke-width="1"/>
+        <path d="M23 10L37 18V34L23 42L9 34V18L23 10Z"
+              stroke="#272420" stroke-width="0.75"/>
+      </svg>
+    </div>
+
+    <h1>Andrés<br>Fajardo</h1>
+
+    <p class="descriptor">
+      Founder <span class="sep">·</span> CPO <span class="sep">·</span> Investor <span class="sep">·</span> Advisor
+    </p>
+
+    <div class="hr" aria-hidden="true"></div>
+
+    <ul class="links">
+      <li><a href="https://linkedin.com/in/andresfajardo" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="#" class="email-link" data-u="af.uplifting638" data-h="passmail.com" aria-label="Send email">Contact</a></li>
+    </ul>
+
+  </main>
+
+  <footer class="sig">
+    <p aria-hidden="true">4.8151° N — 162.342° W — Sector 07</p>
+    <p id="seq-trigger" class="seq-trigger" role="button" tabindex="0" aria-label="Enter the DHARMA sequence">Seq — <span class="seq-number" data-i="0">04</span> · <span class="seq-number" data-i="1">08</span> · <span class="seq-number" data-i="2">15</span> · <span class="seq-number" data-i="3">16</span> · <span class="seq-number" data-i="4">23</span> · <span class="seq-number" data-i="5">42</span></p>
+  </footer>
+
+  <div id="dharma-pulse" class="dharma-pulse" aria-hidden="true"></div>
+
+  <div id="dharma-terminal" class="dharma-terminal" aria-hidden="true" role="dialog" aria-label="DHARMA sequence terminal" aria-modal="true">
+    <div class="dharma-terminal__hdr">DHARMA — STATION 04 — INPUT SEQUENCE</div>
+    <div class="dharma-track">
+      <span class="dharma-track__pfx">&gt;</span>
+      <span id="dharma-chips"></span>
+      <span id="dharma-input-wrap"><input type="text" id="dharma-input" class="dharma-terminal__input" inputmode="numeric" autocomplete="off" spellcheck="false" maxlength="1"></span>
+    </div>
+    <p class="dharma-hint" id="dharma-hint">awaiting <span class="dharma-hint__num">[04]</span></p>
+    <button id="dharma-initiate" class="dharma-initiate" tabindex="-1" aria-hidden="true">[ INITIATE ]</button>
+    <p class="dharma-esc">ESC — dismiss</p>
+  </div>
+
+  <aside id="dharma-file" class="dharma-file" aria-hidden="true" role="dialog" aria-label="Classified personnel file" aria-modal="true">
+    <div class="dharma-file__hdr">░ DHARMA — PERSONNEL FILE ░</div>
+    <pre id="dharma-file-body" class="dharma-file__body"></pre>
+    <button id="dharma-ack" class="dharma-ack">[ ACK — DISMISS ]</button>
+  </aside>
+
+  <a href="dark-room.html" target="_blank" rel="noopener" class="pi-trigger" aria-label="Open archive">π</a>
+
+  <script>
+    // Remove Spline watermark from shadow DOM once the viewer loads
+    (function () {
+      const viewer = document.querySelector('spline-viewer');
+      function purge() {
+        const logo = viewer.shadowRoot && viewer.shadowRoot.querySelector('#logo');
+        if (logo) { logo.remove(); return true; }
+        return false;
+      }
+      viewer.addEventListener('load', () => { purge(); });
+      let n = 0;
+      const t = setInterval(() => { if (purge() || ++n > 20) clearInterval(t); }, 300);
+    })();
+
+    // Spotlight — follows cursor
+    const spotlight = document.getElementById('spotlight');
+    let rafId;
+
+    document.addEventListener('mousemove', (e) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        spotlight.style.left = `${e.clientX}px`;
+        spotlight.style.top  = `${e.clientY}px`;
+        spotlight.style.opacity = '1';
+      });
+    });
+
+    document.addEventListener('mouseleave', () => {
+      spotlight.style.opacity = '0';
+    });
+
+    // Secure email — assembled from parts on click; never appears as mailto: in source
+    document.querySelector('.email-link').addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = 'mailto:' + this.dataset.u + '\x40' + this.dataset.h;
+    });
+
+    // Mobile: gyroscope parallax — tilt device to explore the 3D scene
+    (function () {
+      if (!window.DeviceOrientationEvent) return;
+      const scene = document.querySelector('.scene');
+      let gyroRafId;
+      let calibrated = false;
+      let baseGamma = 0, baseBeta = 45;
+
+      function handleGyro(e) {
+        if (!calibrated) {
+          baseGamma = e.gamma || 0;
+          baseBeta  = e.beta  || 45;
+          calibrated = true;
+        }
+        const dx = Math.max(-12, Math.min(12, (e.gamma - baseGamma) / 3.5));
+        const dy = Math.max(-8,  Math.min(8,  (e.beta  - baseBeta)  / 4.5));
+        if (gyroRafId) cancelAnimationFrame(gyroRafId);
+        gyroRafId = requestAnimationFrame(() => {
+          scene.style.transform = `translate(${dx * -1}px, ${dy * -0.6}px) scale(1.05)`;
+        });
+      }
+
+      // iOS 13+ requires a user gesture to enable DeviceOrientationEvent
+      function startGyro() {
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          DeviceOrientationEvent.requestPermission()
+            .then(state => { if (state === 'granted') window.addEventListener('deviceorientation', handleGyro); })
+            .catch(() => {});
+        } else {
+          window.addEventListener('deviceorientation', handleGyro);
+        }
+      }
+
+      // Only activate on touch devices
+      if (navigator.maxTouchPoints > 0) {
+        document.addEventListener('touchstart', startGyro, { once: true });
+      }
+    })();
+
+    // ─── DHARMA Sequence Easter Egg ───
+    (function () {
+      const SEQ  = ['4', '8', '15', '16', '23', '42'];
+      const DISP = ['04', '08', '15', '16', '23', '42'];
+      const FILE_TEXT =
+`░ CLASSIFIED ─ DHARMA PERSONNEL FILE ░
+─────────────────────────────────────
+SUBJECT       : FAJARDO, ANDRÉS
+ROLE          : ARCHITECT (STN 04)
+ORIGIN        : BOGOTÁ — COL
+STATUS        : ACTIVE — SECTOR 07
+AFFILIATIONS  : [REDACTED] × 3
+NOTES         : known to break things
+                on purpose. responds
+                to coffee.
+─────────────────────────────────────
+"the numbers are bad."   — orientation 04`;
+
+      let eggState = 'idle'; // idle | open | revealed
+      let idx = 0;
+      let twTimer = null;
+
+      const terminal    = document.getElementById('dharma-terminal');
+      const dhInput     = document.getElementById('dharma-input');
+      const dhInputWrap = document.getElementById('dharma-input-wrap');
+      const dhChips     = document.getElementById('dharma-chips');
+      const dhHint      = document.getElementById('dharma-hint');
+      const dhInitiate  = document.getElementById('dharma-initiate');
+      const dhFile      = document.getElementById('dharma-file');
+      const dhFileBody  = document.getElementById('dharma-file-body');
+      const dhAck       = document.getElementById('dharma-ack');
+      const dhPulse     = document.getElementById('dharma-pulse');
+      const dhScene     = document.querySelector('.scene');
+      const seqTrigger  = document.getElementById('seq-trigger');
+      const seqNumbers  = document.querySelectorAll('.seq-number');
+      const noMotion    = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function updateHint() {
+        if (idx < SEQ.length) {
+          dhHint.innerHTML = `awaiting <span class="dharma-hint__num">[${DISP[idx]}]</span>`;
+        } else {
+          dhHint.textContent = 'sequence complete — initiate';
+        }
+      }
+
+      function resetTrack() {
+        idx = 0;
+        dhChips.innerHTML = '';
+        dhInput.value = '';
+        dhInput.maxLength = SEQ[0].length;
+        dhInput.removeAttribute('disabled');
+        updateHint();
+        dhInitiate.classList.remove('is-visible');
+        dhInitiate.setAttribute('tabindex', '-1');
+        dhInitiate.setAttribute('aria-hidden', 'true');
+      }
+
+      function openTerminal(prefillChar) {
+        if (eggState !== 'idle') return;
+        eggState = 'open';
+        resetTrack();
+        terminal.removeAttribute('aria-hidden');
+        terminal.dataset.state = 'open';
+        dhInput.focus();
+        if (prefillChar) { dhInput.value = prefillChar; tryCommit(); }
+      }
+
+      function closeTerminal() {
+        if (eggState !== 'open') return;
+        eggState = 'idle';
+        delete terminal.dataset.state;
+        terminal.setAttribute('aria-hidden', 'true');
+        seqTrigger.focus();
+      }
+
+      function commit() {
+        const chip = document.createElement('span');
+        chip.className = 'dharma-chip';
+        chip.textContent = DISP[idx];
+        dhChips.appendChild(chip);
+        idx++;
+        dhInput.value = '';
+        if (idx < SEQ.length) {
+          dhInput.maxLength = SEQ[idx].length;
+          updateHint();
+        } else {
+          dhInput.setAttribute('disabled', '');
+          updateHint();
+          dhInitiate.classList.add('is-visible');
+          dhInitiate.removeAttribute('tabindex');
+          dhInitiate.removeAttribute('aria-hidden');
+          setTimeout(() => dhInitiate.focus(), 40);
+        }
+      }
+
+      function shake() {
+        dhInputWrap.classList.remove('dharma-shake');
+        void dhInputWrap.offsetWidth;
+        dhInputWrap.classList.add('dharma-shake');
+        setTimeout(() => dhInputWrap.classList.remove('dharma-shake'), 300);
+        dhInput.value = '';
+      }
+
+      function tryCommit() {
+        if (idx >= SEQ.length) return;
+        const val = dhInput.value.replace(/\D/g, '');
+        dhInput.value = val;
+        if (!val.length) return;
+        const expected = SEQ[idx];
+        if (val === expected) {
+          commit();
+        } else if (val.length >= expected.length || !expected.startsWith(val)) {
+          shake();
+        }
+      }
+
+      function typewriter(text, el, done) {
+        let i = 0;
+        function tick() {
+          if (i < text.length) {
+            el.textContent += text[i++];
+            twTimer = setTimeout(tick, 18);
+          } else {
+            twTimer = null;
+            if (done) done();
+          }
+        }
+        tick();
+      }
+
+      function runReveal() {
+        if (eggState !== 'open') return;
+        eggState = 'revealed';
+
+        // Collapse terminal
+        delete terminal.dataset.state;
+        terminal.setAttribute('aria-hidden', 'true');
+
+        // Scene amber tint + flash
+        dhScene.classList.add('scene--unlock');
+        dhPulse.classList.remove('is-active');
+        void dhPulse.offsetWidth;
+        dhPulse.classList.add('is-active');
+        dhPulse.addEventListener('animationend', () => dhPulse.classList.remove('is-active'), { once: true });
+
+        // Stagger seq numbers
+        const numDelay = noMotion ? 0 : 200;
+        setTimeout(() => {
+          seqNumbers.forEach((el, i) => {
+            setTimeout(() => el.classList.add('seq-number--lit'), noMotion ? 0 : i * 65);
+          });
+        }, numDelay);
+
+        // File slides in + typewriter
+        const fileDelay = noMotion ? 0 : 320;
+        setTimeout(() => {
+          dhFileBody.textContent = '';
+          dhFile.removeAttribute('aria-hidden');
+          dhFile.dataset.state = 'open';
+          if (noMotion) {
+            dhFileBody.textContent = FILE_TEXT;
+            dhAck.focus();
+          } else {
+            typewriter(FILE_TEXT, dhFileBody, () => dhAck.focus());
+          }
+        }, fileDelay);
+      }
+
+      function dismissReveal() {
+        if (eggState !== 'revealed') return;
+        eggState = 'idle';
+
+        if (twTimer) { clearTimeout(twTimer); twTimer = null; }
+
+        // Slide file out, then remove tint
+        delete dhFile.dataset.state;
+        dhFile.setAttribute('aria-hidden', 'true');
+        setTimeout(() => dhScene.classList.remove('scene--unlock'), 450);
+        seqNumbers.forEach(el => el.classList.remove('seq-number--lit'));
+        setTimeout(() => { dhFileBody.textContent = ''; }, 750);
+
+        seqTrigger.focus();
+      }
+
+      // Seq trigger: click & keyboard
+      seqTrigger.addEventListener('click', () => openTerminal());
+      seqTrigger.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openTerminal(); }
+      });
+
+      // Global '4' shortcut opens terminal and commits first number
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== '4' || e.metaKey || e.ctrlKey || e.altKey) return;
+        if (eggState !== 'idle') return;
+        const tag = document.activeElement && document.activeElement.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        e.preventDefault();
+        openTerminal('4');
+      });
+
+      // Input
+      dhInput.addEventListener('input', tryCommit);
+      dhInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { closeTerminal(); return; }
+        if (e.key === 'Enter' && idx >= SEQ.length) runReveal();
+      });
+
+      // Initiate
+      dhInitiate.addEventListener('click', runReveal);
+      dhInitiate.addEventListener('keydown', (e) => { if (e.key === 'Enter') runReveal(); });
+
+      // ACK / dismiss
+      dhAck.addEventListener('click', dismissReveal);
+
+      // Esc from anywhere
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (eggState === 'open') closeTerminal();
+        else if (eggState === 'revealed') dismissReveal();
+      });
+
+      // Click outside terminal to close
+      document.addEventListener('click', (e) => {
+        if (eggState !== 'open') return;
+        if (!terminal.contains(e.target) && e.target !== seqTrigger) closeTerminal();
+      });
+
+      // Focus trap inside terminal
+      terminal.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const focusable = [...terminal.querySelectorAll('input:not(:disabled), button:not([tabindex="-1"])')];
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+
+</body>
 </html>

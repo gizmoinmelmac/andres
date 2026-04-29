@@ -4,78 +4,62 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a static personal portfolio/vCard website for Andrés Fajardo at `andresfajardo.co`. No build system, package manager, or server-side code — everything is plain HTML, CSS, and jQuery.
+Static personal site for Andrés Fajardo at `andresfajardo.co`. No build system, package manager, or server-side code — everything is self-contained HTML + CSS + vanilla JS.
 
-**Hosting:** Currently GitHub Pages. Migration to Cloudflare Pages is in progress — see `docs/infrastructure.md`.  
-**DNS:** Managed by Cloudflare (Free plan) — domain registered on Namecheap.  
-**Docs:** `docs/infrastructure.md` (hosting/DNS setup) · `docs/progress.md` (task tracker)
+**Hosting:** Currently GitHub Pages. Migration to Cloudflare Pages in progress — see `docs/infrastructure.md`.  
+**DNS:** Cloudflare (Free plan) — domain on Namecheap.  
+**Docs:** `docs/infrastructure.md` (hosting/DNS) · `docs/progress.md` (task tracker)
 
 ## Design & Frontend Standards
 
 Before any HTML/CSS/visual work, always invoke:
-- **`/impeccable`** — primary design reference; use on every design task to avoid generic output
-- **`/design-taste-frontend`** — layer in when making frontend implementation decisions or evaluating visual output
+- **`/impeccable`** — primary design reference; use on every design task
+- **`/design-taste-frontend`** — layer in for frontend implementation decisions
 
-For any library, framework, or tool-specific syntax, use the **context7 MCP** rather than relying on training data.
+For library/framework syntax, use the **context7 MCP** rather than training data.
 
 ## Development
 
-Open `index.html` directly in a browser, or serve locally to avoid AJAX issues with portfolio detail loading:
-
 ```bash
 python3 -m http.server 8000
-# then open http://localhost:8000
+# open http://localhost:8000
 ```
 
-There are no build steps, no linting tools, and no test suite.
+No build steps, no linting, no test suite.
 
 ## Architecture
 
-### Template: BookCard v1.2 (pixelwars)
+The site is two self-contained single-page files. No shared CSS, JS, or assets between them.
 
-The site uses a "book" metaphor with a 3D CSS flip layout:
+### `index.html` — homepage (DHARMA Station 04)
 
-- **`#rm-container`** — root container; toggled between `rm-closed` / `rm-open` / `rm-in` CSS classes to drive the 3D page-turn animation
-- **`.rm-cover`** — the front "cover" of the book (home page)
-- **`.rm-middle`** — hidden middle layer used during the flip
-- **`.rm-right`** — the back "right" side (portfolio, resume, contact pages)
+Dark atmospheric page built around a full-page Spline 3D scene (robot figure). DHARMA Initiative aesthetic: classified document meets interactive art installation.
 
-### Safe Mode
+**Key elements:**
+- **Spline scene** — `<spline-viewer>` web component, full-page background. A shadow-DOM purge IIFE removes the Spline watermark at runtime.
+- **Veil + vignette + scanlines** — layered fixed overlays that create depth and texture over the 3D scene.
+- **Spotlight** — `#spotlight` radial glow follows the cursor (desktop only).
+- **Content** — `.content` (fixed, left-aligned): station label, hex seal SVG, name H1, descriptor, LinkedIn + contact links.
+- **Signature** — `.sig` (fixed, bottom-left): coordinates + the `Seq — 04 · 08 · 15 · 16 · 23 · 42` trigger.
+- **π trigger** — `.pi-trigger` (fixed, bottom-right): a tiny `π` glyph linking to `dark-room.html` in a new tab.
+- **DHARMA sequence easter egg** — clicking the `Seq —` line opens a terminal panel; entering the six numbers (`4 8 15 16 23 42`) and pressing INITIATE reveals a typewriter-animated personnel file, then dismisses.
 
-On mobile, IE, or older browsers, `safe-mod` class is added to `<html>`, disabling 3D transforms and falling back to simple show/hide + CSS animations. The layout breakpoint is 960px.
+**Palette:** All colors use OKLCH — `--bg` (9% dark amber), `--text` (87% warm), `--dim` (56% muted), `--accent` (74% amber), `--rule` (26% dark rule).
 
-### Routing
+**Fonts:** Chakra Petch (display/H1) + Azeret Mono (all other text).
 
-Hash-based routing via `jquery.address`. Each page section has an `id` matching the hash (e.g. `#/home`, `#/resume`). Portfolio detail pages load via AJAX into `.p-overlay` elements using `.load()`.
+**Mobile:** Gradient flips bottom-up; content moves to bottom of viewport; hex seal hidden; gyroscope parallax activated on first touch (iOS 13+ requires permission gesture).
 
-### CSS Skins
+### `dark-room.html` — Archive 314 (π)
 
-The theme is composed of four independently swappable skin layers, each loaded via a `<link>` with a specific class:
+Scrollable "classified trivia archive" in the same DHARMA aesthetic. No Spline scene.
 
-| Link class | Directory | Controls |
-|---|---|---|
-| `.cover-skin` | `css/skins/cover/` | Cover page style (retro, neon, fire, etc.) |
-| `.base-skin` | `css/skins/base/` | Base UI (modern, retro, clean, retro3d) |
-| `.paper-bg-skin` | `css/skins/paper-bg/` | Paper texture on the right panel |
-| `.body-bg-skin` | `css/skins/body-bg/` | Body background pattern |
+**Key elements:**
+- **Torch mask** — `#torch-mask`: a fixed full-page dark overlay with a transparent radial hole at `--tx`/`--ty` (cursor position). Creates a flashlight effect on desktop. Hidden on `(hover: none)` and `(prefers-reduced-motion: reduce)`.
+- **Hex watermark** — faint SVG hexagon centered in background, `opacity: 0.03`.
+- **Four archive cards** — Coffee · Movies & Scripts · Music · Stuff, in a 2-col CSS Grid (`auto-fit, minmax(340px, 1fr)`). Single column on mobile.
+- **Footer** — EOF line + "Return to Station 04" link back to `/`.
 
-To change the site's look, swap the `href` on the corresponding `<link>` in `index.html`.
+### `old_site/` (gitignored)
 
-### Key JS Files
-
-- **`js/main.js`** — all application logic: layout, routing, masonry, scrollbars, lightbox, skill bars, 3D menu
-- **`js/send-mail.js`** — contact form AJAX POST handler
-- **`cgi-bin/`** — server-side mail handler (unused under GitHub Pages static hosting)
-
-### Content Sections
-
-All content lives in `index.html`. The four nav pages are: `#home` (cover), `#resume`, `#portfolio`, `#contact`. Portfolio detail pages are separate HTML files (`portfolio-*.html`) loaded dynamically.
-
-### HTML Attributes on `<html>`
-
-Behavior is configured via `data-*` attributes on the root `<html>` element in `index.html`:
-
-- `data-safeMod` — force safe mode on/off
-- `data-inAnimation` / `data-outAnimation` — CSS animation class names for page transitions
-- `data-cover-h1-tune` through `data-cover-h3-span-tune` — FitText multipliers for cover typography
-- `data-twitter-name` — Twitter handle for the Twitter widget
+The legacy BookCard v1.2 (pixelwars) site is preserved on disk in `old_site/` but is gitignored and not served. It included jQuery-based routing, CSS skin layers, AJAX portfolio detail loading, and a 3D CSS flip layout. Not referenced by any live page.

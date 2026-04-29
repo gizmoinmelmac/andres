@@ -29,3 +29,5 @@ npm-debug.log*
 
 # If a package manager is ever added
 node_modules/
+
+old_site/
